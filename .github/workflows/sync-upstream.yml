@@ -1,0 +1,28 @@
+name: Upstream Sync
+
+permissions:
+  contents: write
+  actions: write
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync upstream maillab/cloud-mail
+        run: |
+          BEFORE=$(gh api /repos/${{ github.repository }}/branches/main --jq .commit.sha)
+          gh repo sync ${{ github.repository }} --source maillab/cloud-mail --branch main --force
+          AFTER=$(gh api /repos/${{ github.repository }}/branches/main --jq .commit.sha)
+          if [ "$BEFORE" != "$AFTER" ]; then
+            echo "New upstream commits synced ($BEFORE -> $AFTER), triggering deploy..."
+            gh workflow run deploy-cloudflare.yml --repo ${{ github.repository }}
+          else
+            echo "Already up-to-date with upstream."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
