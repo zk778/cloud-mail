@@ -37,6 +37,9 @@ jobs:
     steps:
       - name: 🚚 检出代码仓库 / Checkout repository
         uses: actions/checkout@v4
+        with:
+          repository: maillab/cloud-mail
+          ref: main
 
       - name: ⚙ 设置 pnpm / Set up pnpm
         uses: pnpm/action-setup@v4.1.0
