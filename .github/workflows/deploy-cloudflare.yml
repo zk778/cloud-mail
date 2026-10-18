@@ -122,7 +122,7 @@ jobs:
 
           sed -i "s|\${NAME}|${NAME}|g" "$CONFIG_FILE"
           sed -i "s|\${CUSTOM_DOMAIN}|${CUSTOM_DOMAIN}|g" "$CONFIG_FILE"
-          printf '\n[[routes]]\npattern = "mail.xiaokangzai.me"\ncustom_domain = true\n' >> "$CONFIG_FILE"
+          printf '\n[[routes]]\npattern = "mail.xiaokangzai.me"\ncustom_domain = true\n\n[[routes]]\npattern = "mail.xiaokangzi.com"\ncustom_domain = true\n' >> "$CONFIG_FILE"
           sed -i "s|\"\${DOMAIN}\"|${DOMAIN}|g" "$CONFIG_FILE"
           sed -i "s|\${ADMIN}|${ADMIN}|g" "$CONFIG_FILE"
           sed -i "s|\${JWT_SECRET}|${JWT_SECRET}|g" "$CONFIG_FILE"
